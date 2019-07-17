@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="../jquery-1.11.2.min.js"></script>
+</head>
+
+<body>
+
+<input type="text" id="uid" /><span id="ts"></span>
+<form action="updata.php" method="post" id="text_form">
+    <div class="yuanGongH ipt">账号：<input type="text" id="ygh" value="" name="ygh"></div>
+    <div class="szmm ipt">密码：<input type="text" value="" name="password" id="pass"></div>
+</form>
+<div class="btn_zhuce">登录</div>
+</body>
+<script type="text/javascript">
+$(".btn_zhuce").click(function(){
+var ygh = document.getElementById("ygh").value;
+var pass = document.getElementById("pass").value;
+
+var btn_zhuce = $(this).val();
+    if(ygh == "" ){
+        alert("员工号不能为空");
+        return false;
+    }
+    if(pass == "" ){
+        alert("密码不能为空");
+        return false;
+    }
+    else{
+    	$.ajax({
+        url:"https://api.apiopen.top/registerUser", //处理页面的路径
+        data:{
+        	apikey:d0058f79caae5300dcba65f128e52855,
+        	name:ygh,
+        	passwd:pass,
+        }, //要提交的数据是一个JSON
+        type:"POST", //提交方式
+        dataType:"TEXT", //返回数据的类型
+        //TEXT字符串 JSON返回JSON XML返回XML
+        success:function(data){ //回调函数 ,成功时返回的数据存在形参data里
+        	console.log(name);
+            if(data.trim()=="OK")  //trim()方法会去掉页面中的冗余空格
+            {
+                $("#ts").html("该用户名可用");
+                $("#ts").css("color","green");
+            }
+            else
+            {
+                $("#ts").html("该用户名不可用");
+                $("#ts").css("color","red");
+            }
+            }
+	    });
+	    text_form.submit();    
+	    return true;
+	    }
+
+})
+</script>
+</html>
